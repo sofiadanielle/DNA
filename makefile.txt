@@ -1,0 +1,5 @@
+Makefile
+
+EXECUTABLE := assignment1
+
+SOURCES := *.cpp
