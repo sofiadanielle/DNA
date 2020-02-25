@@ -2,20 +2,17 @@
 #include <fstream>
 #include <math.h>
 #include <string>
+
 using namespace std;
 
 int main(int argc, char** argv){
-
-  // boolean for while loop
   bool run = true;
-
-  while(run = true){
-    //command line argument
+  while(run){
     string inFile = argv[1];
     string line;
-    ifstream inFS (inFile);
+    ifstream inFS(inFile);
 
-    // declare and initialize all variables
+    // variables!
 
     //nucleotides
     int countA = 0;
@@ -44,9 +41,12 @@ int main(int argc, char** argv){
     int GC = 0;
     int GG = 0;
 
-    // etc
-    int countLines = 0;
-    int countPairs = 0;
+    int totalLines = 0;
+    int pairCount = 0;
+    int lineLength = 0;
+
+    string pair = "";
+    string letter = "";
 
     //quick maths
     int sum = 0;
@@ -80,237 +80,192 @@ int main(int argc, char** argv){
     double probGT = 0.0;
     double probGG = 0.0;
 
-    // create + open file to write to
-    ofstream outFS;
-    outFS.open("sbejeranoDNA.txt");
-    outFS << "Sofia Bejerano \nID: 2317822 \nCPSC 350: Data Structures \nAssignment 1: DNA Sequence" << endl;
-    outFS << " " << endl;
-
     if(inFS.is_open()){
-      // checks lines in file/while there are lines to read
-      while(getline(inFS,line)){
-        // line count ASK!!
-        countLines++;
-        countLines++;
-        countLines++;
-        countLines++;
-        countLines++;
-        cout << countLines << endl;
+      while(getline(inFS, line)){
+        totalLines++;
+        for(int i = 0; i < line.size() - 1; ++i){
+          letter = line.substr(i,1);
+          pair = line.substr(i,2);
 
-        //goes through lines
-        for(int i = 0; i < line.length() - 1; ++i){
-          string pair = line.substr(i, 1 + i);
+          cout << letter << endl;
+          cout << pair << endl;
 
-          //transform(pair.begin(), pair.end(), pair.begin(), ::tolower);
+          lineLength++;
+          pairCount++;
 
-          // pair total +
-          countPairs++;
-
-          //count A
-          if(pair.find("AA")){
+          //count single nucleotides
+          if(letter.compare("A") == 0){
             countA++;
-            countA++;
+          } else if(letter.compare("T") == 0){
+            countT++;
+          } else if(letter.compare("C") == 0){
+            countC++;
+          } else if(letter.compare("G") == 0){
+            countG++;
+          }
+
+          //count bigrams
+          if(pair.compare("AA") == 0){
             AA++;
-          }
-          if(pair.find("AC")){
-            countA++;
-            countA++;
+            cout << "AA = " << AA << endl;
+          } else if(pair.compare("AC") == 0){
             AC++;
-          }
-          if(pair.find("AT")){
-            countA++;
-            countA++;
+            cout << "AC = " << AC << endl;
+          } else if(pair.compare("AT") == 0){
             AT++;
-          }
-          if(pair.find("AG")){
-            countA++;
-            countA++;
+            cout << "AT = " << AT << endl;
+          } else if(pair.compare("AG") == 0){
             AG++;
-          }
-
-          //count C
-          if(pair.find("CC")){
-            countC++;
-            countC++;
-            CC++;
-          }
-          if(pair.find("CA")){
-            countC++;
-            countC++;
+            cout << "AG = " << AG << endl;
+          } else if(pair.compare("CA") == 0){
             CA++;
-          }
-          if(pair.find("CT")){
-            countC++;
-            countC++;
+            cout << "CA = " << CA << endl;
+          } else if(pair.compare("CC") == 0){
+            CC++;
+            cout << "CC = " << CC << endl;
+          } else if(pair.compare("CT") == 0){
             CT++;
-          }
-          if(pair.find("CG")){
-            countC++;
-            countC++;
+            cout << "CT = " << CT << endl;
+          } else if(pair.compare("CG") == 0){
             CG++;
-          }
-
-          //count T
-          if(pair.find("TT")){
-            countT++;
-            countT++;
-            TT++;
-          }
-          if(pair.find("TA")){
-            countT++;
-            countT++;
+            cout << "CG = " << CG << endl;
+          } else if(pair.compare("TA") == 0){
             TA++;
-          }
-          if(pair.find("TC")){
-            countT++;
-            countT++;
+            cout << "TA = " << TA << endl;
+          } else if(pair.compare("TC") == 0){
             TC++;
-          }
-          if(pair.find("TG")){
-            countT++;
-            countT++;
+            cout << "TC = " << TC << endl;
+          } else if(pair.compare("TT") == 0){
+            TT++;
+            cout << "TT = " << TT << endl;
+          } else if(pair.compare("TG") == 0){
             TG++;
-          }
-
-          // count G
-          if(pair.find("GG")){
-            countG++;
-            countG++;
-            GG++;
-          }
-          if(pair.find("GA")){
-            countG++;
-            countG++;
+            cout << "TG = " << TG << endl;
+          } else if(pair.compare("GA") == 0){
             GA++;
-          }
-          if(pair.find("GC")){
-            countG++;
-            countG++;
+            cout << "GA = " << GA << endl;
+          } else if(pair.compare("GA") == 0){
+            GA++;
+            cout << "GA = " << GA << endl;
+          } else if(pair.compare("GC") == 0){
             GC++;
-          }
-          if(pair.find("GT")){
-            countG++;
-            countG++;
+            cout << "GC = " << GC << endl;
+          } else if(pair.compare("GT") == 0){
             GT++;
+            cout << "GT = " << GT << endl;
+          } else if(pair.compare("GG") == 0){
+            GG++;
+            cout << "GG = " << GG << endl;
           }
-          //count pairs of DNA
 
-
-          //calculate and print sum
-          sum = countA + countC + countT + countG;
-          outFS << "The sum of nucleotides for this file is: " << sum << endl;
-
-          //calculate and print mean
-          mean = (double)sum / (double)countLines;
-          outFS << "The mean of the nucleotides for this file is: " << mean << endl;
-
-          //calculate and print variance
-          variance = (double)mean / 10;
-          outFS << "The variance of the nucleotides for this file is: " << variance << endl;
-
-          //calculate and print standard deviation
-          stDev = sqrt(variance);
-          outFS << "The standard deviation of the nucleotides for this file is: " << stDev << endl;
-
-          //new line space
-          outFS << " " << endl;
-
-          // probability
-
-          outFS << "Here is the relative probability of each nucleotide:" << endl;
-
-          //single nucleotides
-          probA = double(countA) / double(sum);
-          outFS << "A: " << probA << endl;
-
-          probC = double(countC) / double(sum);
-          outFS << "C: " << probC << endl;
-
-          probT = double(countT) / double(sum);
-          outFS << "T: " << probT << endl;
-
-          probG = double(countG) / double(sum);
-          outFS << "G: " << probG << endl;
-
-          outFS << " " << endl;
-          outFS << "Here is the relative probability of each nucleotide bigram: " << endl;
-
-          cout << AA << endl;
-          cout << AC << endl;
-
-          cout << GC << endl;
-          cout << GT << endl;
-          cout << GG << endl;
-
-          //bigram probability
-          probAA = double(AA) / double(sum);
-          outFS << "AA: " << probAA << endl;
-
-          //ASK!! why this isn't counting all the AC's
-          probAC = double(AC) / double(sum) * 2;
-          outFS << "AC: " << probAC << endl;
-
-          probAT = double(AT) / double(sum);
-          outFS << "AT: " << probAT << endl;
-
-          probAG = double(AG) / double(sum);
-          outFS << "AG: " << probAG << endl;
-
-          // C_ bigrams
-          probCA = double(CA) / double(sum);
-          outFS << "CA: " << probCA << endl;
-
-          probCC = double(CC) / double(sum);
-          outFS << "CC: " << probCC << endl;
-
-          probCT = double(CT) / double(sum);
-          outFS << "CT: " << probCT << endl;
-
-          probCG = double(CG) / double(sum);
-          outFS << "CG: " << probCG << endl;
-
-          // T_ bigrams
-          probTA = double(TA) / double(sum);
-          outFS << "TA: " << probTA << endl;
-
-          probTC = double(TC) / double(sum);
-          outFS << "TC: " << probTC << endl;
-
-          probTT = double(TT) / double(sum);
-          outFS << "TT: " << probTT << endl;
-
-          probTG = double(TG) / double(sum);
-          outFS << "TG: " << probTG << endl;
-
-          // G_ bigrams
-          probGA = double(GA) / double(sum);
-          outFS << "GA: " << probGA << endl;
-
-          probGC = double(GC) / double(sum);
-          outFS << "GC: " << probGC << endl;
-
-          probGT = double(GT) / double(sum);
-          outFS << "GT: " << probGT << endl;
-
-          probGG = double(GG) / double(sum);
-          outFS << "GG: " << probGG << endl;
-
-          //ask to reloop
-          cout << "Do you want to read another file? (y/n): " << endl;
-          string choice;
-          cin >> choice;
-
-          // exiting loop check
-          if(choice.compare("n")){
-            run = false;
-            cout << "Exiting the program now!" << endl;
-            exit(1);
-          } else {
-            continue;
-          }
+          pair = "";
         }
       }
 
+      //open sbejerano file
+      ofstream outFS;
+      outFS.open("sbejeranoDNA.txt");
+
+      outFS << "Sofia Bejerano \nID: 2317822 \nCPSC 350: Data Structures \nAssignment 1: DNA Sequence" << endl;
+      outFS << " " << endl;
+
+      // quick maths
+      sum = countA + countT + countG + countC;
+      outFS << "The sum of the length of the DNA strings is: " << sum << endl;
+
+      mean = double(sum) / double(totalLines);
+      outFS << "The mean of the length of the DNA strings is: " << mean << endl;
+
+      variance = double(mean) / 10;
+      outFS << "The variance of the length of the DNA strings is: " << variance << endl;
+
+      stDev = sqrt(variance);
+      outFS << "The standard deviation of the length of the DNA strings is: " << stDev << endl;
+
+      outFS << " " << endl;
+
+      //probability
+      outFS << "Here is the relative probability of each nucleotide: " << endl;
+
+      probA = (double)countA / (double)sum;
+      outFS << "A: " << probA << endl;
+
+      probC = (double)countC / (double)sum;
+      outFS << "C: " << probC << endl;
+
+      probT = (double)countT / (double)sum;
+      outFS << "T: " << probT << endl;
+
+      probG = (double)countG / (double)sum;
+      outFS << "G: " << probG << endl;
+
+
+      //bigram probability
+      outFS << " " << endl;
+      outFS << "Here is the relative probability of each nucleotide bigram: " << endl;
+
+      probAA = (double)AA / double(pairCount);
+      outFS << "AA: " << probAA << endl;
+
+      probAC = (double)AC / double(pairCount);
+      outFS << "AC: " << probAC << endl;
+
+      probAT = (double)AT / double(pairCount);
+      outFS << "AT: " << probAT << endl;
+
+      probAG = (double)AG / double(pairCount);
+      outFS << "AG: " << probAG << endl;
+
+      probCA = (double)CA / double(pairCount);
+      outFS << "CA: " << probCA << endl;
+
+      probCC = (double)CC / double(pairCount);
+      outFS << "CC: " << probCC << endl;
+
+      probCT = (double)CT / double(pairCount);
+      outFS << "CT: " << probCT << endl;
+
+      probCG = (double)CG / double(pairCount);
+      outFS << "CG: " << probCG << endl;
+
+      probTA = (double)TA / double(pairCount);
+      outFS << "TA: " << probTA << endl;
+
+      probTC = (double)TC / double(pairCount);
+      outFS << "TC: " << probTC << endl;
+
+      probTT = (double)TT / double(pairCount);
+      outFS << "TT: " << probTT << endl;
+
+      probTG = (double)TG / double(pairCount);
+      outFS << "TG: " << probTG << endl;
+
+      probGA = (double)GA / double(pairCount);
+      outFS << "GA: " << probGA << endl;
+
+      probGC = (double)GC / double(pairCount);
+      outFS << "GC: " << probGC << endl;
+
+      probGT = (double)GT / double(pairCount);
+      outFS << "GT: " << probGT << endl;
+
+      probGG = (double)GG / double(pairCount);
+      outFS << "GG: " << probGG << endl;
+
+      // gaussian distribution 
+
+      //exit loop
+      cout << "Do you want to read another file? (y/n): " << endl;
+      string choice;
+      cin >> choice;
+
+      if(choice.compare("n")){
+        continue;
+      } else {
+        run = false;
+        cout << "Exiting!" << endl;
+        exit(1);
+      }
     }
   }
 }
