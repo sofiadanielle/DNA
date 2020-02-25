@@ -87,8 +87,8 @@ int main(int argc, char** argv){
           letter = line.substr(i,1);
           pair = line.substr(i,2);
 
-          cout << letter << endl;
-          cout << pair << endl;
+          //cout << letter << endl;
+          //cout << pair << endl;
 
           lineLength++;
           pairCount++;
@@ -107,55 +107,55 @@ int main(int argc, char** argv){
           //count bigrams
           if(pair.compare("AA") == 0){
             AA++;
-            cout << "AA = " << AA << endl;
+            //cout << "AA = " << AA << endl;
           } else if(pair.compare("AC") == 0){
             AC++;
-            cout << "AC = " << AC << endl;
+            //cout << "AC = " << AC << endl;
           } else if(pair.compare("AT") == 0){
             AT++;
-            cout << "AT = " << AT << endl;
+            //cout << "AT = " << AT << endl;
           } else if(pair.compare("AG") == 0){
             AG++;
-            cout << "AG = " << AG << endl;
+            //cout << "AG = " << AG << endl;
           } else if(pair.compare("CA") == 0){
             CA++;
-            cout << "CA = " << CA << endl;
+            //cout << "CA = " << CA << endl;
           } else if(pair.compare("CC") == 0){
             CC++;
-            cout << "CC = " << CC << endl;
+            //cout << "CC = " << CC << endl;
           } else if(pair.compare("CT") == 0){
             CT++;
-            cout << "CT = " << CT << endl;
+            //cout << "CT = " << CT << endl;
           } else if(pair.compare("CG") == 0){
             CG++;
-            cout << "CG = " << CG << endl;
+            //cout << "CG = " << CG << endl;
           } else if(pair.compare("TA") == 0){
             TA++;
-            cout << "TA = " << TA << endl;
+            //cout << "TA = " << TA << endl;
           } else if(pair.compare("TC") == 0){
             TC++;
-            cout << "TC = " << TC << endl;
+            //cout << "TC = " << TC << endl;
           } else if(pair.compare("TT") == 0){
             TT++;
-            cout << "TT = " << TT << endl;
+            //cout << "TT = " << TT << endl;
           } else if(pair.compare("TG") == 0){
             TG++;
-            cout << "TG = " << TG << endl;
+            //cout << "TG = " << TG << endl;
           } else if(pair.compare("GA") == 0){
             GA++;
-            cout << "GA = " << GA << endl;
+            //cout << "GA = " << GA << endl;
           } else if(pair.compare("GA") == 0){
             GA++;
-            cout << "GA = " << GA << endl;
+            //cout << "GA = " << GA << endl;
           } else if(pair.compare("GC") == 0){
             GC++;
-            cout << "GC = " << GC << endl;
+            //cout << "GC = " << GC << endl;
           } else if(pair.compare("GT") == 0){
             GT++;
-            cout << "GT = " << GT << endl;
+            //cout << "GT = " << GT << endl;
           } else if(pair.compare("GG") == 0){
             GG++;
-            cout << "GG = " << GG << endl;
+            //cout << "GG = " << GG << endl;
           }
 
           pair = "";
@@ -252,7 +252,54 @@ int main(int argc, char** argv){
       probGG = (double)GG / double(pairCount);
       outFS << "GG: " << probGG << endl;
 
-      // gaussian distribution 
+      // gaussian distribution
+
+      outFS << " " << endl;
+      outFS << "1000 random iterations:" << endl;
+
+      int distributionG = 0;
+      double r1 = 0.0;
+      double r2 = 0.0;
+      double r3 = 0.0;
+      int lengthDNA = 0;
+
+      //iterate 1000 times
+      for(int i = 0; i < 1000; ++i){
+
+        // rand function
+        r1 = double(rand()) / double(RAND_MAX);
+  			r2 = double(rand()) / double(RAND_MAX);
+
+        // C: standard gaussian
+        distributionG = sqrt((-2) * log(r1)) * cos(2 * M_PI * r2);
+
+        // length
+        lengthDNA = (stDev * distributionG) + mean;
+
+  			// resets string
+  			string dnaString = "";
+
+        // loop to create the DNA
+  			for(int j = 0; j < lengthDNA; ++j)
+  			{
+  				r3 = double(rand()) / double(RAND_MAX);
+
+  				if(r3 < probA){
+  					dnaString.push_back('A');
+  				}else if(r3 < (probA + probC)){
+  					dnaString.push_back('C');
+  				} else if(r3 < (probA + probC + probT)){
+  					dnaString.push_back('T');
+  				}	else{
+  					dnaString.push_back('G');
+  				}
+  			}
+
+        outFS << dnaString << endl;
+      }
+
+      inFS.close();
+      outFS.close();
 
       //exit loop
       cout << "Do you want to read another file? (y/n): " << endl;
