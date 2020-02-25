@@ -6,11 +6,20 @@
 using namespace std;
 
 int main(int argc, char** argv){
+
+  //boolen for loop purposes
   bool run = true;
   while(run){
+    //command line argument
     string inFile = argv[1];
     string line;
     ifstream inFS(inFile);
+
+    // incase inputted file does not exist/is invalid
+    if(!inFS.is_open()){
+      cout << "Invalid file, please try again! \nExiting program!" << endl;
+      return 1;
+    }
 
     // variables!
 
@@ -80,6 +89,14 @@ int main(int argc, char** argv){
     double probGT = 0.0;
     double probGG = 0.0;
 
+    //gaussian distribution
+    int distributionG = 0;
+    double r1 = 0.0;
+    double r2 = 0.0;
+    double r3 = 0.0;
+    int lengthDNA = 0;
+
+    // while file is open, do as follows
     if(inFS.is_open()){
       while(getline(inFS, line)){
         totalLines++;
@@ -257,16 +274,10 @@ int main(int argc, char** argv){
       outFS << " " << endl;
       outFS << "1000 random iterations:" << endl;
 
-      int distributionG = 0;
-      double r1 = 0.0;
-      double r2 = 0.0;
-      double r3 = 0.0;
-      int lengthDNA = 0;
-
       //iterate 1000 times
       for(int i = 0; i < 1000; ++i){
 
-        // rand function
+        // rand function, create a(r1) and b(r2)
         r1 = double(rand()) / double(RAND_MAX);
   			r2 = double(rand()) / double(RAND_MAX);
 
@@ -284,6 +295,7 @@ int main(int argc, char** argv){
   			{
   				r3 = double(rand()) / double(RAND_MAX);
 
+          //creating the strings
   				if(r3 < probA){
   					dnaString.push_back('A');
   				}else if(r3 < (probA + probC)){
@@ -295,17 +307,20 @@ int main(int argc, char** argv){
   				}
   			}
 
+        //print to file
         outFS << dnaString << endl;
       }
 
-      inFS.close();
+      //close all files
       outFS.close();
+      inFS.close();
 
       //exit loop
       cout << "Do you want to read another file? (y/n): " << endl;
       string choice;
       cin >> choice;
 
+      // if statement to exit
       if(choice.compare("n")){
         continue;
       } else {
